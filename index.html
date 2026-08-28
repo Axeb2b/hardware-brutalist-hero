@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<meta name="description" content="HARRY DEV — hardware brutalist. Interfaces that feel inevitable." />
+<title>HARRY DEV — hardware brutalist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* ============================================================
+     HARDWARE BRUTALIST — HERO MOTION
+     Anti-slop: #0A0A0A / #FFFFFF / #CCFF00 / #FF0000.
+     No gradients, no blur, no radius, no soft shadow. Zero libs.
+     ============================================================ */
+
+  :root {
+    --bg: #0A0A0A;
+    --fg: #FFFFFF;
+    --acid: #CCFF00;
+    --red: #FF0000;
+    --font-display: "Anton", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-body: "Inter", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--acid); color: var(--bg); }
+
+  .mono {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  a:focus-visible {
+    outline: 3px solid var(--acid);
+    outline-offset: 3px;
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px solid var(--fg);
+    background: var(--bg);
+  }
+
+  /* -- video background ---------------------------------------- */
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: screen;
+    opacity: 0.9;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+  }
+  /* fallback if the loop never loads */
+  .hero-static {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+
+  /* -- top bar ------------------------------------------------- */
+  .hero-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 3px solid var(--fg);
+    font-size: 10px;
+    color: var(--fg);
+  }
+  .hero-top .tick { color: var(--acid); }
+  .hero-top .status-pill { display: inline-flex; align-items: center; gap: 8px; }
+  .hero-top .status-pill i {
+    width: 8px;
+    height: 8px;
+    background: var(--acid);
+    animation: blink 1s step-end infinite;
+  }
+
+  /* -- center block -------------------------------------------- */
+  .hero-center {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .kicker {
+    font-size: 11px;
+    color: var(--acid);
+    margin-bottom: 18px;
+  }
+
+  /* headline: viewport-bleeding Anton, intentional left clip */
+  .title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 15vw;
+    line-height: 0.7;
+    letter-spacing: -5px;
+    margin-left: -10px;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .title .block { display: block; }
+  .title .accent { color: var(--acid); }
+
+  .tagline {
+    margin-top: 26px;
+    font-family: var(--font-mono);
+    font-size: clamp(12px, 1.6vw, 15px);
+    color: var(--fg);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .tagline .prompt { color: var(--acid); }
+  .tagline .cursor {
+    display: inline-block;
+    width: 0.6em;
+    background: var(--fg);
+    animation: blink 1s step-end infinite;
+  }
+
+  /* -- CTA ----------------------------------------------------- */
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 40px;
+  }
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    padding: 14px 22px;
+    border: 3px solid var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: 4px 4px 0 var(--fg);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, color 0.1s ease;
+  }
+  .btn:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--fg);
+  }
+  .btn:active {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0 var(--fg);
+  }
+  .btn.ghost {
+    background: transparent;
+    color: var(--fg);
+    box-shadow: 4px 4px 0 var(--fg);
+  }
+  .btn.ghost:hover {
+    background: var(--bg);
+    color: var(--acid);
+    border-color: var(--acid);
+    box-shadow: 8px 8px 0 var(--acid);
+  }
+  .btn.ghost:active {
+    box-shadow: 2px 2px 0 var(--acid);
+  }
+
+  /* -- bottom stack: marquee + status bar ---------------------- */
+  .hero-bottom {
+    position: relative;
+    z-index: 3;
+    margin-top: 40px;
+  }
+
+  /* terminal marquee — pure CSS infinite scroll */
+  .marquee {
+    overflow: hidden;
+    height: 40px;
+    border-top: 1px solid var(--fg);
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+  }
+  .marquee-content {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee-scroll 15s linear infinite;
+  }
+  .marquee-content span {
+    padding-right: 60px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .marquee-content span .a { color: var(--acid); }
+  .marquee-content span .r { color: var(--red); }
+  @keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* system status bar — fixed, full-width, cycling messages */
+  .status-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 20px;
+    border-top: 1px solid var(--fg);
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+    z-index: 50;
+  }
+  .status-bar .seg { color: var(--fg); }
+  .status-bar .seg .b { color: var(--acid); }
+  .status-bar .seg.warn .b { color: var(--red); }
+  .status-slot {
+    position: relative;
+    height: 12px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .status-slot .msg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    animation: status-cycle 9s linear infinite;
+  }
+  .status-slot .msg:nth-child(1) { animation-delay: 0s; }
+  .status-slot .msg:nth-child(2) { animation-delay: 3s; }
+  .status-slot .msg:nth-child(3) { animation-delay: 6s; }
+  .status-slot .msg .b { color: var(--acid); }
+  .status-slot .msg .warn { color: var(--red); }
+  @keyframes status-cycle {
+    0%   { opacity: 0; }
+    3%   { opacity: 1; }
+    30%  { opacity: 1; }
+    33%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .status-bar .cursor {
+    color: var(--acid);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* reduce motion: freeze marquee, status cycle, blinking */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content { animation: none; }
+    .status-slot .msg { animation: none; opacity: 1; }
+    .status-slot .msg:nth-child(2),
+    .status-slot .msg:nth-child(3) { display: none; }
+    .status-bar .cursor,
+    .hero-top .status-pill i,
+    .tagline .cursor { animation: none; }
+    .btn { transition: none; }
+  }
+
+  @media (max-width: 640px) {
+    .title { font-size: 19vw; letter-spacing: -3px; }
+    .status-bar { gap: 12px; font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top" aria-label="HARRY DEV — hardware brutalist hero">
+  <!-- video background: AV1/WebM first (1MB), H.264/MP4 fallback (2.1MB).
+       Source: Pexels 10288594 "Scrolling Circuit Board Animation"
+       (Dan Cristian Pădureț), free license, no attribution required.
+       Re-encoded 720p / 10s loop / no audio. -->
+  <video
+    class="hero-video"
+    preload="metadata"
+    muted
+    loop
+    playsinline
+    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1280' height='720'%3E%3Crect width='1280' height='720' fill='%230A0A0A'/%3E%3C/svg%3E"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <source src="hardware-loop.webm" type="video/webm" />
+    <source src="hardware-loop.web.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-static" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- top bar -->
+  <div class="hero-top mono">
+    <span><span class="tick">[</span> HARRYDEV.ONE /// HW.BRUTALIST <span class="tick">]</span></span>
+    <span class="status-pill"><i aria-hidden="true"></i>STATUS: ONLINE</span>
+  </div>
+
+  <!-- center block -->
+  <div class="hero-center">
+    <p class="kicker mono">>>> BUILD.01 — HARDWARE.BRUTALIST /// ZERO FRAMEWORKS</p>
+
+    <h1 class="title" aria-label="HARRY DEV">
+      <span class="block">HARRY</span>
+      <span class="block accent">DEV</span>
+    </h1>
+
+    <p class="tagline">
+      <span class="prompt">$</span> &gt;_ I build interfaces that feel inevitable.
+      <span class="cursor" aria-hidden="true">&nbsp;</span>
+    </p>
+
+    <div class="cta">
+      <a class="btn" href="#arsenal">[ view arsenal ]</a>
+      <a class="btn ghost" href="#contact">[ contact ]</a>
+    </div>
+  </div>
+
+  <!-- bottom: marquee + fixed status bar -->
+  <div class="hero-bottom">
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-content">
+        <span>[ <span class="a">SYS.LOG</span> /// BUILD FROM A PHONE ]&nbsp;</span>
+        <span>[ <span class="a">ZERO CLOUD</span> — NO API KEYS ]&nbsp;</span>
+        <span>[ <span class="r">CRITICAL:</span> NO FRAMEWORKS DETECTED ]&nbsp;</span>
+        <span>[ <span class="a">INTERFACES THAT FEEL INEVITABLE</span> /// ]&nbsp;</span>
+        <span>[ <span class="a">SYS.LOG</span> /// BUILD FROM A PHONE ]&nbsp;</span>
+        <span>[ <span class="a">ZERO CLOUD</span> — NO API KEYS ]&nbsp;</span>
+        <span>[ <span class="r">CRITICAL:</span> NO FRAMEWORKS DETECTED ]&nbsp;</span>
+        <span>[ <span class="a">INTERFACES THAT FEEL INEVITABLE</span> /// ]&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="status-bar" aria-label="system status">
+    <span class="seg">[ CPU: <span class="b">98%</span> ]</span>
+    <span class="seg">[ MEM: <span class="b">64GB</span> ]</span>
+    <span class="status-slot" aria-hidden="true">
+      <span class="msg">[ STATUS: <span class="b">ONLINE</span> /// ALL SYSTEMS GO ]</span>
+      <span class="msg">[ STATUS: <span class="warn">HIGH LOAD</span> /// RATE-LIMIT RISK ]</span>
+      <span class="msg">[ STATUS: <span class="b">ONLINE</span> /// ACCEPTING BUILDS ]</span>
+    </span>
+    <span class="cursor" aria-hidden="true">_</span>
+  </footer>
+</section>
+
+<script>
+  // Minimal vanilla JS: lazy play/pause the hero loop via IntersectionObserver.
+  (function () {
+    var video = document.querySelector(".hero-video");
+    if (!video || typeof IntersectionObserver === "undefined") return;
+
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            video.play().catch(function () {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    io.observe(document.querySelector(".hero"));
+  })();
+</script>
+
+</body>
+</html>
